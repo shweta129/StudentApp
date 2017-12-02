@@ -15,7 +15,7 @@ public class Job {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String jobId;
+	private int jobId;
 	
 	private String jobprofile;
 	
@@ -29,11 +29,11 @@ public class Job {
 	
 	//getter setter method
 
-	public String getJobId() {
+	public int getJobId() {
 		return jobId;
 	}
 
-	public void setJobId(String jobId) {
+	public void setJobId(int jobId) {
 		this.jobId = jobId;
 	}
 
@@ -73,9 +73,12 @@ public class Job {
 		return postdate;
 	}
 
-	public void setPostdate(Date date) {
-		this.postdate = date;
+	public void setPostdate(Date postdate) {
+		this.postdate = postdate;
 	}
+	
+	
+
 	
 	
 }
