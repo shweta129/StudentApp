@@ -50,6 +50,25 @@ public class UserDAOImpl implements UserDAO {
 		session.update(user);
 		
 	}
+
+	public boolean isEmailValid(String email) {
+		Session session = SessionFactory.getCurrentSession();
+		Query query = session.createQuery("from User where email='"+email+"'");
+		User user = (User)query.uniqueResult();
+		if(user==null)//email is valid,unique
+			return true;
+		else
+		return false;
+	}
+
+	public boolean isUsernameValid(String username) {
+		Session session = SessionFactory.getCurrentSession();
+		User user=(User)session.get(User.class, username);
+		if(user==null)
+			return true;
+		else
+		return false;
+	}
 	
 	
 	

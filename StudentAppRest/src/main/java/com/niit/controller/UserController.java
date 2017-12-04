@@ -20,16 +20,26 @@ public class UserController {
 	
 	@RequestMapping(value="/registeruser",method=RequestMethod.POST)
 	public ResponseEntity<?> registerUser(@RequestBody User user){
-		try{
-			userDAO.registerUser(user);
-		}catch(Exception e)
-		{
-			ErrorClazz error = new ErrorClazz(1,"Unable to register user details");
-			return new ResponseEntity<ErrorClazz>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+	try{
+		if(!userDAO.isUsernameValid(user.getUsername())){ //not allow duplicate username
+			ErrorClazz error = new ErrorClazz(2, "Username already exists..Please choose different username");
+			return new ResponseEntity<ErrorClazz>(error,HttpStatus.CONFLICT);//conflict 200-299status
+			
 		}
-		return new ResponseEntity<User>(user,HttpStatus.OK);
+		if(!userDAO.isEmailValid(user.getEmail())){
+			ErrorClazz error = new ErrorClazz(3, "EmailId already exists..Please choose different email address");
+			return new ResponseEntity<ErrorClazz>(error,HttpStatus.CONFLICT);//conflict 200-299status
+		}
+		userDAO.registerUser(user);
 	}
-	
+	catch(Exception e)
+	{
+		ErrorClazz error = new ErrorClazz(1, "Unable to register user details");
+		return new ResponseEntity<ErrorClazz>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+		//failure -response.data=error,response.status=500
+	}
+	return new ResponseEntity<User>(user,HttpStatus.OK);
+}
 	
 	
 }
